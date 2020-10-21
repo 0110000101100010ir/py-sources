@@ -1,7 +1,7 @@
 class Encryption:
 
     def __init__(self):
-        self.key ="!@#$%^&*~?0123456789"
+        self.key ="!@#$%^&*~?0123456789ABCDEFGHIJKLMNOPQRST/\(){}[]UVWXYZ"
         self.secret = list(self.key)
         
 
@@ -14,7 +14,7 @@ class Encryption:
             #if dt not in self.cry:
             self.rotate(self.secret,d)
             self.cry[dt+str(c)] = self.secret[0]
-            filename = format(ord('d'),'b') + format(ord(self.secret[0]),'b')
+            filename = format(ord('d'),'b') + format(ord(self.secret[0]),'b') + str(c)
             with open(filename,'w') as file:
                 for i in range(1,129+d):
                     file.write(format(ord("i"),'b'))
@@ -40,15 +40,16 @@ class Encryption:
 
     def decrypt(self, var, d):
         #reset
-        self.key ="!@#$%^&*~?0123456789"
+        #self.key ="!@#$%^&*~?0123456789"
+        self.key ="!@#$%^&*~?0123456789ABCDEFGHIJKLMNOPQRST/\(){}[]UVWXYZ"
         self.secret = list(self.key)
         self.decrypted = list()
         decr = list()
         # to handle repeatation, just pray
-        #c = 0
+        c = 0
         for lt in var:
             self.rotate(self.secret,d)
-            filename = format(ord('d'),'b') + format(ord(self.secret[0]),'b')
+            filename = format(ord('d'),'b') + format(ord(self.secret[0]),'b') + str(c)
             data1 = list()
             data2 = list()
             
@@ -69,7 +70,7 @@ class Encryption:
             #print(remain)
             #print(fdata[len(data1):(remain+1)])
             decr.append(fdata[len(data1):(len(data1)+remain)])
-            #c+=1
+            c+=1
         for binary in decr:
             binary = int(binary)
             decimal, i, n = 0, 0, 0
@@ -85,4 +86,5 @@ class Encryption:
             
         self.decrypted = "".join(self.decrypted)
     
+
 
