@@ -8,17 +8,20 @@ class Encryption:
     def encrypt(self, var, d):
         self.data = self.rotate(list(var),d)
         self.cry = dict()
+        # to handle repeatation, just pray
+        c = 0
         for dt in self.data:
-            if dt not in self.cry:
-                self.rotate(self.secret,d)
-                self.cry[dt] = self.secret[0]
-                filename = format(ord('d'),'b') + format(ord(self.secret[0]),'b')
-                with open(filename,'w') as file:
-                    for i in range(1,129+d):
-                        file.write(format(ord("i"),'b'))
-                    file.write(format(ord(dt),'b'))
-                    for i in range(1,129-d):
-                        file.write(format(ord("i"),'b'))
+            #if dt not in self.cry:
+            self.rotate(self.secret,d)
+            self.cry[dt+str(c)] = self.secret[0]
+            filename = format(ord('d'),'b') + format(ord(self.secret[0]),'b')
+            with open(filename,'w') as file:
+                for i in range(1,129+d):
+                    file.write(format(ord("i"),'b'))
+                file.write(format(ord(dt),'b'))
+                for i in range(1,129-d):
+                    file.write(format(ord("i"),'b'))
+            c+=1
 
         cryloud = list(self.cry.values())
         self.encrypted = "".join(cryloud)
@@ -41,6 +44,8 @@ class Encryption:
         self.secret = list(self.key)
         self.decrypted = list()
         decr = list()
+        # to handle repeatation, just pray
+        #c = 0
         for lt in var:
             self.rotate(self.secret,d)
             filename = format(ord('d'),'b') + format(ord(self.secret[0]),'b')
@@ -64,7 +69,7 @@ class Encryption:
             #print(remain)
             #print(fdata[len(data1):(remain+1)])
             decr.append(fdata[len(data1):(len(data1)+remain)])
-            
+            #c+=1
         for binary in decr:
             binary = int(binary)
             decimal, i, n = 0, 0, 0
@@ -80,3 +85,4 @@ class Encryption:
             
         self.decrypted = "".join(self.decrypted)
     
+
